@@ -142,9 +142,9 @@ extension Reactive where Base : MKMapView {
                 return (mode: try castOrThrow(Int.self, a[1]),
                     animated: try castOrThrow(Bool.self, a[2]))
             }
-            .map { (mode, animated) in
-                return (mode: MKUserTrackingMode(rawValue: mode)!,
-                    animated: animated)
+            .map {
+                 (mode: MKUserTrackingMode(rawValue: $0.0)!,
+                    animated: $0.1)
             }
         return ControlEvent(events: source)
     }
@@ -204,10 +204,10 @@ extension Reactive where Base : MKMapView {
                     newState: try castOrThrow(UInt.self, a[2]),
                     oldState: try castOrThrow(UInt.self, a[3]))
             }
-            .map { (view, newState, oldState) in
-                return (view: view,
-                    newState: MKAnnotationViewDragState(rawValue: newState)!,
-                    oldState: MKAnnotationViewDragState(rawValue: oldState)!)
+            .map {
+                (view: $0.0,
+                    newState: MKAnnotationViewDragState(rawValue: $0.1)!,
+                    oldState: MKAnnotationViewDragState(rawValue: $0.2)!)
             }
         return ControlEvent(events: source)
     }
@@ -237,7 +237,7 @@ extension Reactive where Base : MKMapView {
                 source.map { elements -> [MKAnnotation] in
                     elements.map(factory)
                 }
-                .bindTo(self.annotations)
+                .bind(to: self.annotations)
             }
     }
     

@@ -12,6 +12,10 @@ import RxCocoa
 
 class RxMKMapViewDelegateProxy: DelegateProxy, MKMapViewDelegate, DelegateProxyType {
 
+	static var factory = DelegateProxyFactory { (parentObject: MKMapView) in
+		RxMKMapViewDelegateProxy(parentObject: parentObject)
+	}
+	
     class func currentDelegateFor(_ object: AnyObject) -> AnyObject? {
         let mapView: MKMapView = (object as? MKMapView)!
         return mapView.delegate
